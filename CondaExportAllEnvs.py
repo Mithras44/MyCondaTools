@@ -9,7 +9,7 @@ Exports all conda environments to a folder in user directory. Can be used either
 To use as a script change the export_folder variable to desired export folder and run.
 To use it from command line you can change the default export folder by changing export_folder but also override it 
 with the --export_folder argument.
-Define folder path with python conda_export_all_envs.py --export_folder=/folder/subfolder
+Define folder path with python CondaExportAllEnvs.py --export_folder=/folder/subfolder
 """
 
 import subprocess
