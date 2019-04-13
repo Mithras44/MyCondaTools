@@ -1,5 +1,6 @@
 # MyCondaTools
 Tools for Conda Environments Anaconda https://www.anaconda.com/ 
+
 Make sure you have the latest version of conda installed: `conda update conda`
 
 ## CheckCondaEnv
