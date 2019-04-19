@@ -54,7 +54,8 @@ def create_export_folder_path(export_folder=export_folder):
     home = os.path.expanduser('~')
     if str(export_folder[0]) != "/":
         export_folder = "/" + export_folder
-    export_folder_path = home + export_folder
+    else:
+        export_folder_path = home + export_folder
     if not os.path.exists(export_folder_path):
         os.makedirs(export_folder_path, mode=0o777)
     return export_folder_path
