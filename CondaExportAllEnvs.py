@@ -14,10 +14,10 @@ Define folder path with python CondaExportAllEnvs.py --export_folder=/folder/sub
 
 import subprocess
 import json
-import os
 import argparse
+from pathlib import Path
 
-export_folder = "/ACproject/My_Conda_Backup_Envs"  # Change to desired export
+export_folder = "/ACproject/MyCondaBackupEnvs"  # Change to desired export
 #  folder in user directory my_conda_backup_envs
 
 
@@ -51,13 +51,11 @@ def create_export_folder_path(export_folder=export_folder):
         export_folder_path (str): Returns full folder path
     """
 
-    home = os.path.expanduser('~')
-    if str(export_folder[0]) != "/":
-        export_folder = "/" + export_folder
-    else:
-        export_folder_path = home + export_folder
-    if not os.path.exists(export_folder_path):
-        os.makedirs(export_folder_path, mode=0o777)
+    home = Path.home()
+    export_folder_list = list(export_folder.split('/'))
+    export_folder_path = Path.joinpath(home, *export_folder_list)
+    if not Path.exists(export_folder_path):
+        Path.mkdir(export_folder_path, mode=0o777, parents=True)
     return export_folder_path
 
 
@@ -75,9 +73,8 @@ def conda_env_list():
     output_envs = output['envs'][1:]
     env_names_list = []
     for env in output_envs:
-        env = env.replace("\\", "/")
-        env_name = env.split("/")[-1:]
-        env_names_list += env_name
+        env = env.replace("\\", "/").split("/")[-1:]
+        env_names_list += env
     env_names_list.append("base")
     return env_names_list
 
