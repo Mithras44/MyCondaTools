@@ -6,10 +6,11 @@ Created on Wed Feb 20 18:48:30 2019
 @docstrings: Google
 
 Exports all conda environments to a folder in user directory. Can be used either as a script or from the command line.
-To use as a script change the export_folder variable to desired export folder and run.
-To use it from command line you can change the default export folder by changing export_folder but also override it 
-with the --export_folder argument.
-Define folder path with python CondaExportAllEnvs.py --export_folder=/folder/subfolder
+To use as a script change the export_folder use_date_folders and variable and run.
+To use it from command line you can change the default export folder by changing export_folder varriable but also override it 
+with the optional --export_folder argument. 
+You can change the use_date_folders varialbe or override it from command line with --use_date_folders argument.
+Define folder path with command: python CondaExportAllEnvs.py --export_folder=/folder/subfolder --use_date_folders=True
 """
 
 import subprocess
@@ -20,15 +21,17 @@ from datetime import datetime
 
 export_folder = "/ACproject/MyCondaBackupEnvs"  # Change to desired export
 #  folder in user directory my_conda_backup_envs
-use_date_folders = True # Change to add yaml files into date folders in the export folder
+use_date_folders = False # Change to add yaml files into date folders in the export folder
 
 def cmd_export_folder(export_folder=export_folder, use_date_folders=use_date_folders):
     """Takes script default export folder but can be overwritten by argument from command line.
 
     Args:
-        export_folder (str, optional): Folder within user directory. Defaults for export_folder variable if arg isn't provided via command line.
+        export_folder (str, optional): Folder within user directory to export conda yaml files into. Can be overriden by optional command line argument.
+        use_date_folders (bool, optional): True or False on whether to put conda yaml files into date folders within export folder. Can be overriden by optional command line argument
     Returns:
         export_folder (str): String of folder (non full path) to export conda env yml files.
+        use_date_folders (bool): Boolean for whether to use date folders within export folder.
     """
     cmd_use_date_folders = str(use_date_folders)
 
@@ -49,7 +52,6 @@ def cmd_export_folder(export_folder=export_folder, use_date_folders=use_date_fol
         use_date_folders = False
     else:
         use_date_folders=use_date_folders
-    print("use_date_folders : " + str(use_date_folders))
     return export_folder, use_date_folders
 
 
@@ -57,12 +59,14 @@ def create_export_folder_path(export_folder=export_folder, use_date_folders=use_
     """Takes export folder argument and creates folder if it doesn't exist and returns full path.
 
     Args:
-        export_folder (str, optional): Defaults to export_folder.
+        export_folder (str, optional): Defaults to export_folder. Folder within user directory to export conda yaml files into.
+        use_date_folders (bool, optional): Defaults to use_date_folders. True or False on whether to put conda yaml files into date folders within export folder.
 
     Returns:
         export_folder_path (str): Returns full folder path
     """
 
+    print("use_date_folders : " + str(use_date_folders))
     home = Path.home()
     export_folder_list = list(export_folder.split('/'))
     export_folder_path = Path.joinpath(home, *export_folder_list)
@@ -134,7 +138,8 @@ def main(export_folder=export_folder, use_date_folders=use_date_folders):
     """Main.
 
     Args:
-        export_folder (str, optional): Defaults to export_folder variable.
+        export_folder (str, optional): Defaults to export_folder. Folder within user directory to export conda yaml files into.
+        use_date_folders (bool, optional): Defaults to use_date_folders. True or False on whether to put conda yaml files into date folders within export folder.
     """
 
     export_folder, use_date_folders = cmd_export_folder(export_folder, use_date_folders)
