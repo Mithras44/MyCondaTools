@@ -11,14 +11,14 @@ This can export all the conda environments into yaml files. You can run it as a 
 
 You can change the variable to set which folder within the user directory you wish to export the conda yaml files into.
 
-You can also override the varialbe if running if using command line with --export_folder=/folder/subfolder argument.
+You can also override the variable if running if using command line with --export_folder=/folder/subfolder argument.
 
 ### use_date_folders
 
 You can set the boolean to True or False depending on if you want to export the conda yaml files into a sequential folders within today's date folder within the export_folder. This can be useful if you want to periodically run the script to create backups for conda environments.
-This means the export folder would be /export_folder/{todays_date}/{sequential number}/ within the user directory.
+This means the export folder would be /export_folder/{todays_date}/{sequential_number}/ within the user directory.
 
-You can also override the varialbe if running if using command line with --use_date_folders=False argument.
+You can also override the variable if running if using command line with --use_date_folders=False argument.
 
 Define folder path from command line with command: python CondaExportAllEnvs.py --export_folder=/folder/subfolder --use_date_folders=True
 """
@@ -38,8 +38,8 @@ def cmd_export_folder(export_folder=export_folder, use_date_folders=use_date_fol
     """Takes script default export folder but can be overwritten by argument from command line.
 
     Args:
-        export_folder (str, optional): Folder within user directory to export conda yaml files into. Can be overriden by optional cmd argument --export_folder.
-        use_date_folders (bool, optional): Whether to put conda yaml files into todays date folder within export folder. Can be overriden by optional cmd argument --use_date_folders.
+        export_folder (str, optional): Folder within user directory to export conda yaml files into. Can be overridden by optional cmd argument --export_folder.
+        use_date_folders (bool, optional): Whether to put conda yaml files into today's date folder within export folder. Can be overridden by optional cmd argument --use_date_folders.
     Returns:
         export_folder (str): String of folder (non full path) to export conda env yml files.
         use_date_folders (bool): Boolean for whether to use date folders within export folder.
@@ -71,7 +71,7 @@ def create_export_folder_path(export_folder=export_folder, use_date_folders=use_
 
     Args:
         export_folder (str, optional): Defaults to export_folder. Folder within user directory to export conda yaml files into.
-        use_date_folders (bool, optional): Defaults to use_date_folders. True or False on whether to put conda yaml files into todays date folder within export folder.
+        use_date_folders (bool, optional): Defaults to use_date_folders. True or False on whether to put conda yaml files into today's date folder within export folder.
 
     Returns:
         export_folder_path (str): Returns full folder path
@@ -126,7 +126,7 @@ def conda_env_list():
 
 
 def export_envs(env_names_list, export_folder_path):
-    """Creates yaml files of conda enviroments in export folder.
+    """Creates yaml files of conda environments in export folder.
 
     Args:
         env_names_list (list): List of all the conda to export.
@@ -151,7 +151,7 @@ def main(export_folder=export_folder, use_date_folders=use_date_folders):
 
     Args:
         export_folder (str, optional): Defaults to export_folder. Folder within user directory to export conda yaml files into.
-        use_date_folders (bool, optional): Defaults to use_date_folders. True or False on whether to put conda yaml files into todays date folder within export folder.
+        use_date_folders (bool, optional): Defaults to use_date_folders. True or False on whether to put conda yaml files into today's date folder within export folder.
     """
 
     export_folder, use_date_folders = cmd_export_folder(
