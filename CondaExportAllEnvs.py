@@ -16,12 +16,13 @@ import subprocess
 import json
 import argparse
 from pathlib import Path
+from datetime import datetime
 
 export_folder = "/ACproject/MyCondaBackupEnvs"  # Change to desired export
 #  folder in user directory my_conda_backup_envs
+use_date_folders = True # Change to add yaml files into date folders in the export folder
 
-
-def cmd_export_folder(export_folder=export_folder):
+def cmd_export_folder(export_folder=export_folder, use_date_folders=use_date_folders):
     """Takes script default export folder but can be overwritten by argument from command line.
 
     Args:
@@ -29,6 +30,7 @@ def cmd_export_folder(export_folder=export_folder):
     Returns:
         export_folder (str): String of folder (non full path) to export conda env yml files.
     """
+    cmd_use_date_folders = str(use_date_folders)
 
     parser = argparse.ArgumentParser(description="""Export all conda
                                       environments into .yml files to
@@ -36,12 +38,22 @@ def cmd_export_folder(export_folder=export_folder):
     parser.add_argument('--export_folder', type=str, default=export_folder,
                         help=f"""folder to export to within user directory
                          (default: {export_folder})""")
+    parser.add_argument('--use_date_folders', type=str, default=cmd_use_date_folders,
+                        help="""Boolean whether to put yaml files in date folders""")
     args = parser.parse_args()
     export_folder = args.export_folder
-    return export_folder
+    cmd_use_date_folders = args.use_date_folders
+    if cmd_use_date_folders == 'True':
+        use_date_folders = True
+    elif cmd_use_date_folders == 'False':
+        use_date_folders = False
+    else:
+        use_date_folders=use_date_folders
+    print("use_date_folders : " + str(use_date_folders))
+    return export_folder, use_date_folders
 
 
-def create_export_folder_path(export_folder=export_folder):
+def create_export_folder_path(export_folder=export_folder, use_date_folders=use_date_folders):
     """Takes export folder argument and creates folder if it doesn't exist and returns full path.
 
     Args:
@@ -54,9 +66,27 @@ def create_export_folder_path(export_folder=export_folder):
     home = Path.home()
     export_folder_list = list(export_folder.split('/'))
     export_folder_path = Path.joinpath(home, *export_folder_list)
-    if not Path.exists(export_folder_path):
-        Path.mkdir(export_folder_path, mode=0o777, parents=True)
-    return export_folder_path
+    if use_date_folders is False:
+        if not Path.exists(export_folder_path):
+            Path.mkdir(export_folder_path, mode=0o777, parents=True)
+        return export_folder_path
+
+    elif use_date_folders is True:
+        today = datetime.today().strftime("%Y-%m-%d")
+        today_path = Path.joinpath(export_folder_path, today)
+
+        if not Path.exists(today_path):
+            export_folder_path = Path.joinpath(today_path, '01')
+            Path.mkdir(export_folder_path, mode=0o777, parents=True)
+            return export_folder_path
+
+        elif Path.exists(today_path):
+            folder_list = [str(folder.stem) for folder in today_path.iterdir() if folder.is_dir()]
+            highest_value = max(folder_list)
+            new_highest_value = str(int(highest_value) + 1).zfill(2)
+            export_folder_path = Path.joinpath(today_path, new_highest_value)
+            Path.mkdir(export_folder_path, mode=0o777, parents=True)
+            return export_folder_path
 
 
 def conda_env_list():
@@ -100,15 +130,15 @@ def export_envs(env_names_list, export_folder_path):
     print("Complete")
 
 
-def main(export_folder=export_folder):
+def main(export_folder=export_folder, use_date_folders=use_date_folders):
     """Main.
 
     Args:
         export_folder (str, optional): Defaults to export_folder variable.
     """
 
-    export_folder = cmd_export_folder(export_folder)
-    export_folder_path = create_export_folder_path(export_folder)
+    export_folder, use_date_folders = cmd_export_folder(export_folder, use_date_folders)
+    export_folder_path = create_export_folder_path(export_folder, use_date_folders)
     env_names_list = conda_env_list()
     export_envs(env_names_list, export_folder_path)
 
