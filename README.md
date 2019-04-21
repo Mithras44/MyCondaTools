@@ -10,4 +10,17 @@ This is a function you can import into the beginning of a script to make sure yo
 
 ## CondaExportAllEnvs
 
-This can export all the conda environments into yaml files. You can run it as a script and change the `export_folder` variable to which folder in the user directory you wish to export them into. Alternatively you can run it from the command line where the `export_folder` will be the default export folder but you can override it by providing it with a `--export_folder=/folder/subfolder` argument.
+This can export all the conda environments into yaml files. You can run it as a script or from the command line. There are two variables you can change.
+
+### export_folder
+
+You can change the variable to set which folder within the user directory you wish to export the conda yaml files into.
+
+You can also override the varialbe if running if using command line with `--export_folder=/folder/subfolder` argument.
+
+### use_date_folders
+
+You can set the boolean to True or False depending on if you want to export the conda yaml files into a sequential folders within today's date folder within the export_folder. This can be useful if you want to periodically run the script to create backups for conda environments.
+This means the export folder would be `/export_folder/{todays_date}/{sequential number}/` within the user directory.
+
+You can also override the varialbe if running if using command line with `--use_date_folders=False` argument.
