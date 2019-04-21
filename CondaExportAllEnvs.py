@@ -31,7 +31,7 @@ from datetime import datetime
 
 export_folder = "/ACproject/MyCondaBackupEnvs"  # Change to desired export folder in user directory my_conda_backup_envs
  
-use_date_folders = False # Change to add yaml files into date folders in the export folder
+use_date_folders = True # Change to add yaml files into date folders in the export folder
 
 
 def cmd_export_folder(export_folder=export_folder, use_date_folders=use_date_folders):
