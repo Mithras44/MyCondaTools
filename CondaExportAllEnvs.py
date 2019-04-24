@@ -163,4 +163,4 @@ def main(export_folder=export_folder, use_date_folders=use_date_folders):
 
 
 if __name__ == "__main__":
-    main(export_folder)
+    main(export_folder, use_date_folders)
