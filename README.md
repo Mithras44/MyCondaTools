@@ -12,7 +12,7 @@ This is a function you can import into the beginning of a script to make sure yo
 
 This can export all the conda environments into yaml files. You can run it as a script or from the command line. There are two variables you can change.
 
-To use from command line you can use the command line change the working directory to MyCondaTools and input: `python CondaExportAllEnvs.py` . You also have the option of adding two arguments to override the default varialbes:
+To use from command line you can use the command line change the working directory to MyCondaTools and input: `python CondaExportAllEnvs.py` . You also have the option of adding two arguments to override the default variables:
 
 ### export_folder
 
